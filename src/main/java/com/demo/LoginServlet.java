@@ -9,18 +9,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@WebServlet( "/LoginServlet")
+@WebServlet(
+        description = "Login Servlet testing",
+        urlPatterns = { "/LoginServlet" },
+        initParams = { @WebInitParam(name="user",value="Mrunali"),
+                @WebInitParam(name="password",value="Mrunali") }
+)
 public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        String user = request.getParameter("user");
+        String user = request.getParameter("user");
+        boolean validuser = (user != null) && user.matches("[A-Z]{1}[a-z]{3,6}");
+
         String pwd = request.getParameter( "pwd");
-
-        String user = "[A-Z]{1}[a-z]{3,6}";
-        Pattern pattern = Pattern.compile(user);
-
+        
         String userID = getServletConfig().getInitParameter("user");
         String password = getServletConfig().getInitParameter("password");
 
@@ -35,3 +40,4 @@ public class LoginServlet extends HttpServlet {
         }
     }
 }
+
